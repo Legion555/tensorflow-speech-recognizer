@@ -14,8 +14,8 @@ const Dictaphone = ({setAction}) => {
 
   const loadModel = async () => {
     const recognizer = await speech.create("BROWSER_FFT");
-    console.log('loaded')
     await recognizer.ensureModelLoaded()
+    console.log(recognizer)
     setModel(recognizer);
     setLabels(recognizer.wordLabels());
   }
@@ -24,23 +24,36 @@ const Dictaphone = ({setAction}) => {
     return arr.map((x,i)=>[x,i]).reduce((r,a)=>(a[0] > r[0] ? a : r))[1];
   }
 
-  const recognizeCommands = async () => {
+  const listenToCommands = async () => {
     setIsListening(true)
     model.listen(result => {
+      console.log(result)
       setAction(labels[argMax(Object.values(result.scores))])
     }, {includeSpectrogram: true, probabilityThreshold: 0.9})
-    setTimeout(() => {
-      model.stopListening()
-      setIsListening(false)
-    }, 10e3)
+    // setTimeout(() => {
+    //   model.stopListening()
+    //   setIsListening(false)
+    // }, 10e3)
+  }
+
+  const stopListening = async () => {
+    model.stopListening()
+    setIsListening(false)
   }
 
 
   
   return (
     <div>
-      <button onClick={recognizeCommands} className={!isListening ? 'p-2 rounded text-4xl shadow bg-blue-600 text-gray-100' : 'p-2 rounded text-4xl shadow bg-yellow-600 text-gray-100'}>
-        {!isListening ? 'Listen' : 'Listening...'}</button>
+      <h1 className="mb-8 text-4xl">TensorFlow Speech Recognition</h1>
+      {!isListening ?
+        <button onClick={listenToCommands}
+          className="p-2 rounded text-3xl shadow bg-blue-600 text-gray-100 focus:outline-none hover:bg-blue-500">Listen</button>
+        :
+        <button onClick={stopListening} className="p-2 rounded text-3xl shadow bg-yellow-600 text-gray-100 focus:outline-none hover:bg-yellow-500">Stop listening</button>
+      }
+      {/* <button onClick={listenToCommands} className={!isListening ? 'p-2 rounded text-3xl shadow bg-blue-600 text-gray-100' : 'p-2 rounded text-3xl shadow bg-yellow-600 text-gray-100'}>
+        {!isListening ? 'Listen' : 'Listening...'}</button> */}
     </div>
   )
 }

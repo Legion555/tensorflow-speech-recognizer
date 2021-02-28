@@ -13,6 +13,7 @@
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-particles-js": "^3.4.1",
     "react-speech-recognition": "^3.7.0"
   },
   "devDependencies": {
@@ -20,5 +21,9 @@
     "postcss": "^8.2.6",
     "tailwindcss": "^2.0.3"
   },
-  "browser": { "fs": false, "path": false, "os": false}  
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
 }
