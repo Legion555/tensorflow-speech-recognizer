@@ -20,5 +20,5 @@
     "postcss": "^8.2.6",
     "tailwindcss": "^2.0.3"
   },
-  "browser": { "fs": false, "path": false, "os": false}
+  "browser": { "fs": false, "path": false, "os": false}  
 }
