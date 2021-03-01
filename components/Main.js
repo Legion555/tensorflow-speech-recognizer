@@ -8,6 +8,9 @@ export default function Main() {
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
 
+    //controls appearance of confirmation modal
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
     return(
         <div className="w-full md:w-11/12 xl:w-6/12 p-8 rounded shadow bg-gray-200">
             <div className="text-center">
@@ -20,6 +23,7 @@ export default function Main() {
                 {questionList[currentQuestion].options.map((option, index) => 
                     <Item option={option} index={index}
                         action={action} acceptedActions={acceptedActions}
+                        showConfirmationModal={showConfirmationModal} setShowConfirmationModal={setShowConfirmationModal}
                         currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />
                 )}
             </div>
@@ -27,11 +31,9 @@ export default function Main() {
     )
 }
 
-const Item = ({option, index, action, acceptedActions, setCurrentQuestion, currentQuestion}) => {
+const Item = ({option, index, action, acceptedActions, setCurrentQuestion, currentQuestion, showConfirmationModal, setShowConfirmationModal}) => {
     const [optionState, setOptionState] = useState('unselected')
 
-    //controls appearance of confirmation modal
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     //stores action value for answer verification
     const [answer, setAnswer] = useState(null);
 
@@ -48,6 +50,7 @@ const Item = ({option, index, action, acceptedActions, setCurrentQuestion, curre
             } else if(action == 'no') {
                 setShowConfirmationModal(false);
                 setOptionState('unselected')
+                setAnswer(null);
             }
         }
     }, [action])
