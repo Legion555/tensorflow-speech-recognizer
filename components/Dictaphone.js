@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import * as tf from '@tensorflow/tfjs'
 import * as speech from '@tensorflow-models/speech-commands'
 
-const Dictaphone = ({setAction}) => {
+const Dictaphone = ({setAction, acceptedActions}) => {
   const [model, setModel] = useState(null)
   const [labels, setLabels] = useState(null)
   const [isListening, setIsListening] = useState(false)
@@ -27,13 +27,11 @@ const Dictaphone = ({setAction}) => {
   const listenToCommands = async () => {
     setIsListening(true)
     model.listen(result => {
-      console.log(result)
-      setAction(labels[argMax(Object.values(result.scores))])
+      const receivedAction = labels[argMax(Object.values(result.scores))]
+      if (acceptedActions.includes(receivedAction)) {
+        setAction(receivedAction)
+      }
     }, {includeSpectrogram: true, probabilityThreshold: 0.9})
-    // setTimeout(() => {
-    //   model.stopListening()
-    //   setIsListening(false)
-    // }, 10e3)
   }
 
   const stopListening = async () => {
@@ -45,7 +43,6 @@ const Dictaphone = ({setAction}) => {
   
   return (
     <div>
-      <h1 className="mb-8 text-4xl">TensorFlow Speech Recognition</h1>
       {!isListening ?
         <button onClick={listenToCommands}
           className="p-2 rounded text-3xl shadow bg-blue-600 text-gray-100 focus:outline-none hover:bg-blue-500">Listen</button>

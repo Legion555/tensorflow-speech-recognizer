@@ -1,33 +1,97 @@
 import Dictaphone from '../components/Dictaphone'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import questionList from '../data/questionList'
 
 export default function Main() {
+
     const [action, setAction] = useState(null);
+    const acceptedActions = ['one', 'two', 'three', 'yes', 'no']
+
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+
+    
+
+    
 
     return(
-        <div className="w-full md:w-9/12 p-8 rounded shadow bg-gray-200">
+        <div className="w-full md:w-11/12 xl:w-6/12 p-8 rounded shadow bg-gray-200">
             <div className="text-center">
-            <Dictaphone setAction={setAction} />
+                <Dictaphone setAction={setAction} acceptedActions={acceptedActions} />
             </div>
-            <div className="mt-8 grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-            <Item action={action} id={'one'} value={1} />
-            <Item action={action} id={'two'} value={2} />
-            <Item action={action} id={'three'} value={3} />
-            <Item action={action} id={'four'} value={4} />
-            <Item action={action} id={'five'} value={5} />
-            <Item action={action} id={'six'} value={6} />
-            <Item action={action} id={'seven'} value={7} />
-            <Item action={action} id={'eight'} value={8} />
-            <Item action={action} id={'nine'} value={9} />
-            <Item action={action} id={'zero'} value={0} />
+            {/* Header */}
+            <p className="text-4xl text-center">{questionList[currentQuestion].name}?</p>
+            {/* Choices */}
+            <div className="mt-8 flex flex-col">
+                {questionList[currentQuestion].options.map((option, index) => 
+                    <Item option={option} index={index}
+                        action={action} acceptedActions={acceptedActions} />
+                )}
             </div>
         </div>
     )
 }
 
-const Item = (props) => {
+const Item = ({option, index, action, acceptedActions}) => {
+    const [optionState, setOptionState] = useState('unselected')
+
+    //controls appearance of confirmation modal
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    //stores action value for answer verification
+    const [answer, setAnswer] = useState(null);
+
+    useEffect(() => {
+        if (action === option.id || answer === option.id) {
+            if (acceptedActions.includes(action) && !showConfirmationModal) {
+                setShowConfirmationModal(true);
+                setOptionState('selected')
+                setAnswer(action);
+            } else if (action == 'yes') {
+                setShowConfirmationModal(false);
+                validateAnswer()
+                setAnswer(null);
+            } else if(action == 'no') {
+                setShowConfirmationModal(false);
+                setOptionState('unselected')
+                setAnswer(null);
+            }
+        }
+    }, [action])
+
+    const validateAnswer = () => {
+        if (option.isTrue) {
+            setOptionState('right');
+            setShowConfirmationModal(false);
+        } else {
+            setOptionState('wrong');
+            setShowConfirmationModal(false);
+        }
+    }
+
     return (
-      <p className={props.action == props.id ? 'w-max px-8 md:px-16 py-4 md:py-8 text-4xl rounded shadow bg-blue-400'
-        : 'w-max px-8 md:px-16 py-4 md:py-8 text-4xl text-gray-800 rounded shadow bg-gray-300'} style={{border: '1px solid #999'}}>{props.value}</p>
+        <div className="mb-4 w-full">
+            {optionState === 'unselected' &&
+                <p className='px-4 lg:px-8 py-4 text-4xl text-gray-800 rounded shadow bg-gray-300' style={{border: '1px solid #999'}}>{`${index+1}. ${option.name}`}</p>
+            }
+            {optionState === 'selected' &&
+                <p className='px-4 lg:px-8 py-4 text-4xl rounded shadow bg-blue-400' style={{border: '1px solid #999'}}>{`${index+1}. ${option.name}`}</p>
+            }
+            {optionState === 'right' &&
+                <p className='px-4 lg:px-8 py-4 text-4xl rounded shadow bg-green-400' style={{border: '1px solid #999'}}>{`${index+1}. ${option.name}`}</p>
+            }
+            {optionState === 'wrong' &&
+                <p className='px-4 lg:px-8 py-4 text-4xl rounded shadow bg-red-400' style={{border: '1px solid #999'}}>{`${index+1}. ${option.name}`}</p>
+            }
+            {showConfirmationModal &&
+            <div className="w-full h-screen absolute top-0 left-0 flex justify-center items-center">
+                <div className="p-4 shadow rounded bg-gray-100">
+                    <p className="mb-4 text-2xl text-gray-600">Are you sure about that?</p>
+                    <div className="flex justify-around">
+                        <button className="px-2 py-1 text-xl rounded shadow text-gray-100 bg-green-600">Yes</button>
+                        <button className="px-2 py-1 text-xl rounded shadow text-gray-100 bg-red-600">No</button>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
     )
-  }
+}
