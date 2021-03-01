@@ -1,6 +1,7 @@
 import Head from 'next/head'
 //components
 import Main from '../components/Main'
+import Nav from '../components/Nav'
 
 
 export default function Home() {
@@ -10,6 +11,8 @@ export default function Home() {
         <title>Speech Recognizer</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Nav />
 
       <Main />
 

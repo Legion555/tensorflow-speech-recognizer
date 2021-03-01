@@ -10,7 +10,6 @@ const Dictaphone = ({setAction, acceptedActions}) => {
 
   useEffect(() => {
     loadModel()
-    listenToCommands()
   }, [])
 
   const loadModel = async () => {
@@ -32,7 +31,7 @@ const Dictaphone = ({setAction, acceptedActions}) => {
       if (acceptedActions.includes(receivedAction)) {
         setAction(receivedAction)
       }
-    }, {includeSpectrogram: true, probabilityThreshold: 0.8})
+    }, {includeSpectrogram: true, probabilityThreshold: 0.7})
   }
 
   const stopListening = async () => {
@@ -44,12 +43,12 @@ const Dictaphone = ({setAction, acceptedActions}) => {
   
   return (
     <div>
-      {/* {!isListening ?
+      {!isListening ?
         <button onClick={listenToCommands}
-          className="p-2 rounded text-3xl shadow bg-blue-600 text-gray-100 focus:outline-none hover:bg-blue-500">Listen</button>
+          className="p-2 rounded text-3xl shadow bg-blue-600 text-gray-100 focus:outline-none hover:bg-blue-500">Start listening</button>
         :
         <button onClick={stopListening} className="p-2 rounded text-3xl shadow bg-yellow-600 text-gray-100 focus:outline-none hover:bg-yellow-500">Stop listening</button>
-      } */}
+      }
       {/* <button onClick={listenToCommands} className={!isListening ? 'p-2 rounded text-3xl shadow bg-blue-600 text-gray-100' : 'p-2 rounded text-3xl shadow bg-yellow-600 text-gray-100'}>
         {!isListening ? 'Listen' : 'Listening...'}</button> */}
     </div>

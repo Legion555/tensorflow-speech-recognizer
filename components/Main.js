@@ -27,7 +27,7 @@ export default function Main() {
                         currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />
                 )}
             </div>
-            <p className="text-center text-xl text-gray-600">Use your voice.<br/>Say the number of your choice and confirm with 'yes' or 'no'.</p>
+            <p className="text-center text-xl text-gray-600">Use your voice.<br/>Click 'Start listening'.<br/>Then, say the number of your choice.<br/>Confirm by saying 'yes' or 'no'.</p>
         </div>
     )
 }
