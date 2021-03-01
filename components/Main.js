@@ -3,15 +3,10 @@ import {useEffect, useState} from 'react'
 import questionList from '../data/questionList'
 
 export default function Main() {
-
     const [action, setAction] = useState(null);
     const acceptedActions = ['one', 'two', 'three', 'yes', 'no']
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
-
-    
-
-    
 
     return(
         <div className="w-full md:w-11/12 xl:w-6/12 p-8 rounded shadow bg-gray-200">
@@ -24,14 +19,15 @@ export default function Main() {
             <div className="mt-8 flex flex-col">
                 {questionList[currentQuestion].options.map((option, index) => 
                     <Item option={option} index={index}
-                        action={action} acceptedActions={acceptedActions} />
+                        action={action} acceptedActions={acceptedActions}
+                        currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />
                 )}
             </div>
         </div>
     )
 }
 
-const Item = ({option, index, action, acceptedActions}) => {
+const Item = ({option, index, action, acceptedActions, setCurrentQuestion, currentQuestion}) => {
     const [optionState, setOptionState] = useState('unselected')
 
     //controls appearance of confirmation modal
@@ -52,15 +48,21 @@ const Item = ({option, index, action, acceptedActions}) => {
             } else if(action == 'no') {
                 setShowConfirmationModal(false);
                 setOptionState('unselected')
-                setAnswer(null);
             }
         }
     }, [action])
+
+    useEffect(() => {
+        setOptionState('unselected')
+     }, [currentQuestion])
 
     const validateAnswer = () => {
         if (option.isTrue) {
             setOptionState('right');
             setShowConfirmationModal(false);
+            setTimeout(() => {
+                setCurrentQuestion(currentQuestion+1)
+            }, 1e3);
         } else {
             setOptionState('wrong');
             setShowConfirmationModal(false);

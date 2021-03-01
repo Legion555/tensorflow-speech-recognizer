@@ -31,7 +31,7 @@ const Dictaphone = ({setAction, acceptedActions}) => {
       if (acceptedActions.includes(receivedAction)) {
         setAction(receivedAction)
       }
-    }, {includeSpectrogram: true, probabilityThreshold: 0.9})
+    }, {includeSpectrogram: true, probabilityThreshold: 0.8})
   }
 
   const stopListening = async () => {
