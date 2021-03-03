@@ -2,8 +2,8 @@ import questionList from '../data/questionList'
 
 export default function Scoreboard({currentQuestion}) {
     return(
-        <div className="w-max mt-8 mx-auto p-4 rounded-xl bg-gray-200">
-            <h1 className="text-center text-2xl text-gray-600">Progress</h1>
+        <div className="w-max mb-4 lg:mb- mx-auto md:mx-0">
+            <h1 className="text-2xl text-gray-600">Progress</h1>
                 {currentQuestion < questionList.length ?
                     <div className="flex mt-4">
                         {questionList.map((question, index) => { 

@@ -2,6 +2,8 @@ import Dictaphone from '../components/Dictaphone'
 import {useState} from 'react'
 import questionList from '../data/questionList'
 import Options from './Options';
+//components
+import Scoreboard from './Scoreboard'
 
 export default function Main({currentQuestion, setCurrentQuestion}) {
     const [voiceInput, setVoiceInput] = useState(null);
@@ -53,8 +55,9 @@ export default function Main({currentQuestion, setCurrentQuestion}) {
     }
 
     return(
-        <div className="w-full md:w-11/12 xl:w-6/12 mx-auto p-8 rounded shadow bg-gray-200">
-            <div className="text-center">
+        <div className="w-full md:w-11/12 xl:w-6/12 mx-auto p-4 lg:p-8 rounded shadow bg-gray-200">
+            <div className="flex justify-between items-center flex-wrap">
+                <Scoreboard currentQuestion={currentQuestion} />
                 <Dictaphone setVoiceInput={setVoiceInput} acceptedActions={acceptedActions} />
             </div>
             {/* Question + choices */}
@@ -74,7 +77,7 @@ export default function Main({currentQuestion, setCurrentQuestion}) {
                         showConfirmationModal={showConfirmationModal} setShowConfirmationModal={setShowConfirmationModal}
                         suggestedAnswer={suggestedAnswer} setSuggestedAnswer={setSuggestedAnswer}
                         voiceInput={voiceInput} selectNo={selectNo} selectYes={selectYes} />
-                    <p className="text-center text-xl text-gray-600">Use your voice.<br/>Click 'Start listening'.<br/>Then, say the number of your choice.<br/>Confirm by saying 'yes' or 'no'.</p>
+                    <p className="text-center lg:text-xl text-gray-600">Use your voice.<br/>Click 'Start listening'.<br/>Then, say the number of your choice.<br/>Confirm by saying 'yes' or 'no'.</p>
                 </div>
             :
                 <div className="my-4 flex flex-col">

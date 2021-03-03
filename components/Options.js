@@ -36,19 +36,19 @@ export default function Options({questions, setQuestions, currentQuestion, showC
     return(
         <div>
             {questionList[currentQuestion].options.map((option, index) => 
-                <div>
+                <div className="mb-4">
                     {option.state === 'unselected' &&
                         <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl text-gray-800 rounded shadow bg-gray-300"
-                            onClick={() => selectOption(option, index)}>{option.name}</p>
+                            onClick={() => selectOption(option, index)}>{index+1}. {option.name}</p>
                     }
                     {option.state === 'selected' &&
-                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-blue-400">{option.name}</p>
+                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-blue-400">{index+1}. {option.name}</p>
                     }
                     {option.state === 'wrong' &&
-                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-red-400">{option.name}</p>
+                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-red-400">{index+1}. {option.name}</p>
                     }
                     {option.state === 'right' &&
-                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-green-400">{option.name}</p>
+                        <p className="px-4 lg:px-8 py-4 text-2xl lg:text-4xl rounded shadow bg-green-400">{index+1}. {option.name}</p>
                     }
                 </div>    
             )}
