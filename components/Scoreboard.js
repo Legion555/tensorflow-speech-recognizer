@@ -1,9 +1,23 @@
+import questionList from '../data/questionList'
 
-
-export default function Scoreboard() {
+export default function Scoreboard({currentQuestion}) {
     return(
-        <div className="w-full">
-            
+        <div className="w-max mt-8 mx-auto p-4 rounded-xl bg-gray-200">
+            <h1 className="text-center text-2xl text-gray-600">Progress</h1>
+                {currentQuestion < questionList.length ?
+                    <div className="flex mt-4">
+                        {questionList.map((question, index) => { 
+                            return index <= currentQuestion ?
+                            <div className="w-4 h-4 mx-4 rounded-full bg-blue-600"></div>
+                            :
+                            <div className="w-4 h-4 mx-4 rounded-full bg-gray-600"></div>
+                        })}
+                    </div>
+                :
+                    <div className="flex mt-4">
+                        <h1>Quiz finished!</h1>
+                    </div>
+                }
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import * as tf from '@tensorflow/tfjs'
 import * as speech from '@tensorflow-models/speech-commands'
 
-const Dictaphone = ({setAction, acceptedActions}) => {
+const Dictaphone = ({setVoiceInput, acceptedActions}) => {
   const [model, setModel] = useState(null)
   const [labels, setLabels] = useState(null)
   const [isListening, setIsListening] = useState(false)
@@ -29,7 +29,7 @@ const Dictaphone = ({setAction, acceptedActions}) => {
     model.listen(result => {
       const receivedAction = labels[argMax(Object.values(result.scores))]
       if (acceptedActions.includes(receivedAction)) {
-        setAction(receivedAction)
+        setVoiceInput(receivedAction)
       }
     }, {includeSpectrogram: true, probabilityThreshold: 0.7})
   }
