@@ -7,7 +7,7 @@ import Scoreboard from '../components/Scoreboard'
 
 
 export default function Home() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(-1);
 
   return (
     <div className="w-full min-h-screen pt-16 lg:pt-32 bg-gray-800">

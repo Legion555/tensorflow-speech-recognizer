@@ -1,10 +1,10 @@
 const questionList  = [
     {id: '1',
-    name: 'What is the capital of Vietnam',
+    name: 'What is the capital of Italy',
     options: [
-        {id: 'one', name: 'Da Nang', isTrue: false, state: 'unselected'},
-        {id: 'two', name: 'Hanoi', isTrue: true, state: 'unselected'},
-        {id: 'three', name: 'Hue', isTrue: false, state: 'unselected'}
+        {id: 'one', name: 'Paris', isTrue: false, state: 'unselected'},
+        {id: 'two', name: 'Rome', isTrue: true, state: 'unselected'},
+        {id: 'three', name: 'Saturn', isTrue: false, state: 'unselected'}
         ]
     },
     {id: '2',

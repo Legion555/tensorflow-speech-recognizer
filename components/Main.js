@@ -16,8 +16,8 @@ export default function Main({currentQuestion, setCurrentQuestion}) {
     //stores action value for answer verification
     const [suggestedAnswer, setSuggestedAnswer] = useState(null);
 
-    //change option state
-    const {optionStateChange, setOptionStateChange} = useState({option: null, value: null})
+    //trigger listening function from higher function
+    const [initListening, setInitListening] = useState(false)
 
     const validateAnswer = () => {
         if (suggestedAnswer.isTrue) {
@@ -58,10 +58,16 @@ export default function Main({currentQuestion, setCurrentQuestion}) {
         <div className="w-full md:w-11/12 xl:w-6/12 mx-auto p-4 lg:p-8 rounded shadow bg-gray-200">
             <div className="flex justify-between items-center flex-wrap">
                 <Scoreboard currentQuestion={currentQuestion} />
-                <Dictaphone setVoiceInput={setVoiceInput} acceptedActions={acceptedActions} />
+                <Dictaphone setVoiceInput={setVoiceInput} acceptedActions={acceptedActions} currentQuestion={currentQuestion} setCurrentQuestion={setCurrentQuestion} />
             </div>
+            {currentQuestion == -1 &&
+            <div className="my-4 flex flex-col">
+                <p className="text-center lg:text-xl text-gray-600">When you are ready, click 'Start quiz'.<br/><br/><strong>Now, use your voice.</strong><br/><br/>
+                    Say the number of your choice.<br/>Confirm by saying 'yes' or 'no'.</p>
+            </div>
+            }
             {/* Question + choices */}
-            {currentQuestion < questions.length ?
+            {currentQuestion >= 0 && currentQuestion < questions.length &&
                 <div className="my-4 flex flex-col">
                     <p className="text-3xl lg:text-4xl mb-4 text-center">{questions[currentQuestion].name}?</p>
                     {/* {questionList[currentQuestion].options.map((option, index) => 
@@ -77,9 +83,9 @@ export default function Main({currentQuestion, setCurrentQuestion}) {
                         showConfirmationModal={showConfirmationModal} setShowConfirmationModal={setShowConfirmationModal}
                         suggestedAnswer={suggestedAnswer} setSuggestedAnswer={setSuggestedAnswer}
                         voiceInput={voiceInput} selectNo={selectNo} selectYes={selectYes} />
-                    <p className="text-center lg:text-xl text-gray-600">Use your voice.<br/>Click 'Start listening'.<br/>Then, say the number of your choice.<br/>Confirm by saying 'yes' or 'no'.</p>
                 </div>
-            :
+            }
+            {currentQuestion == questions.length &&
                 <div className="my-4 flex flex-col">
                     <p className="text-3xl lg:text-4xl text-center">Quiz finished!</p>
                 </div>

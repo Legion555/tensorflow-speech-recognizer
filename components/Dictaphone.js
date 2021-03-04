@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import * as tf from '@tensorflow/tfjs'
 import * as speech from '@tensorflow-models/speech-commands'
 
-const Dictaphone = ({setVoiceInput, acceptedActions}) => {
+const Dictaphone = ({setVoiceInput, acceptedActions, currentQuestion, setCurrentQuestion}) => {
   const [model, setModel] = useState(null)
   const [labels, setLabels] = useState(null)
   const [isListening, setIsListening] = useState(false)
@@ -15,7 +15,6 @@ const Dictaphone = ({setVoiceInput, acceptedActions}) => {
   const loadModel = async () => {
     const recognizer = await speech.create("BROWSER_FFT");
     await recognizer.ensureModelLoaded()
-    console.log(recognizer)
     setModel(recognizer);
     setLabels(recognizer.wordLabels());
   }
@@ -43,11 +42,10 @@ const Dictaphone = ({setVoiceInput, acceptedActions}) => {
   
   return (
     <div className="mx-auto md:mx-0">
-      {!isListening ?
-        <button onClick={listenToCommands}
-          className="p-2 rounded text-xl lg:text-2xl shadow bg-blue-600 text-gray-100 focus:outline-none hover:bg-blue-500">Start listening</button>
-        :
-        <button onClick={stopListening} className="p-2 rounded text-xl lg:text-2xl shadow bg-yellow-600 text-gray-100 focus:outline-none hover:bg-yellow-500">Stop listening</button>
+      {!isListening &&
+        <button onClick={() => {listenToCommands(); setCurrentQuestion(currentQuestion+1)}}
+          className="p-2 rounded text-xl lg:text-2xl shadow bg-blue-600 text-gray-100 focus:outline-none">Start quiz</button>
+        // <button onClick={stopListening} className="p-2 rounded text-xl lg:text-2xl shadow bg-yellow-600 text-gray-100 hover:bg-yellow-500">Listening</button>
       }
       {/* <button onClick={listenToCommands} className={!isListening ? 'p-2 rounded text-3xl shadow bg-blue-600 text-gray-100' : 'p-2 rounded text-3xl shadow bg-yellow-600 text-gray-100'}>
         {!isListening ? 'Listen' : 'Listening...'}</button> */}

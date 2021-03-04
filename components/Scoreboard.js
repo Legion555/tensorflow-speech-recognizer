@@ -14,9 +14,11 @@ export default function Scoreboard({currentQuestion}) {
                         })}
                     </div>
                 :
-                    <div className="flex mt-4">
-                        <h1>Quiz finished!</h1>
-                    </div>
+                <div className="flex mt-4">
+                    {questionList.map((question, index) => 
+                        <div className="w-4 h-4 mx-4 rounded-full bg-green-600"></div>
+                    )}
+                </div>
                 }
         </div>
     )
